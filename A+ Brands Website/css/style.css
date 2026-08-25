@@ -1,0 +1,474 @@
+/* ============================================================
+   A+ BRANDS — الأنماط العامة للموقع
+   هذا الملف يتحكم بكل تصميم الموقع (الألوان، الخطوط، البطاقات..)
+   لتغيير الألوان الأساسية، عدّل المتغيرات في أعلى الملف فقط.
+   ============================================================ */
+
+:root{
+  --black:#0d0c0b;
+  --black-soft:#171512;
+  --black-card:#1e1b17;
+  --cream:#f4efe6;
+  --cream-soft:#eae2d4;
+  --cream-card:#fbf8f3;
+  --orange:#e8622c;
+  --orange-dark:#c2501f;
+  --ink:#1a1815;
+  --muted:#a39c8f;
+  --muted-dark:#6b6459;
+  --line:rgba(255,255,255,.12);
+  --line-dark:rgba(20,18,15,.12);
+  --radius-lg:22px;
+  --radius-md:16px;
+  --radius-sm:10px;
+  --shadow:0 12px 28px rgba(0,0,0,.28);
+  --maxw:560px;
+  --nav-h:74px;
+  --top-h:64px;
+}
+
+*,*::before,*::after{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:#000;
+  color:var(--cream);
+  font-family:"Tajawal",-apple-system,"Segoe UI",Tahoma,sans-serif;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+img{max-width:100%;display:block;}
+a{color:inherit;text-decoration:none;}
+button{font-family:inherit;}
+ul{margin:0;padding:0;list-style:none;}
+h1,h2,h3,p{margin:0;}
+
+/* ===== إطار التطبيق (نمط تطبيق جوال حتى على الشاشات الكبيرة) ===== */
+.app{
+  max-width:var(--maxw);
+  margin:0 auto;
+  min-height:100vh;
+  background:var(--black);
+  display:flex;
+  flex-direction:column;
+  position:relative;
+  box-shadow:0 0 60px rgba(0,0,0,.5);
+}
+@media (min-width:600px){
+  body{
+    background:
+      radial-gradient(circle at 20% 20%, #241e17 0%, #000 60%);
+    padding:24px 0;
+  }
+}
+
+/* ===== الشريط العلوي ===== */
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:20;
+  background:rgba(13,12,11,.92);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.topbar-inner{
+  height:var(--top-h);
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:0 18px;
+}
+.brandmark{
+  font-weight:900;
+  font-size:20px;
+  letter-spacing:.02em;
+  color:var(--cream);
+  flex-shrink:0;
+  unicode-bidi:plaintext;
+}
+.brandmark .plus{color:var(--orange);}
+.page-title{
+  font-size:16px;
+  font-weight:700;
+  color:var(--cream);
+  flex:1;
+}
+.back-btn{
+  width:36px;height:36px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--black-card);
+  border-radius:50%;
+  color:var(--cream);
+  flex-shrink:0;
+}
+.back-btn svg{width:18px;height:18px;}
+.spacer{width:36px;flex-shrink:0;}
+
+/* ===== المحتوى ===== */
+.content{flex:1;}
+.section{padding:32px 20px;}
+.section-dark{background:var(--black);color:var(--cream);}
+.section-soft{background:var(--black-soft);color:var(--cream);}
+.section-light{background:var(--cream);color:var(--ink);}
+.section-light .muted{color:var(--muted-dark);}
+
+/* ===== الشريط السفلي (تنقّل بأسلوب تطبيق) ===== */
+.bottomnav{
+  position:sticky;
+  bottom:0;
+  z-index:20;
+  background:rgba(13,12,11,.95);
+  backdrop-filter:blur(10px);
+  border-top:1px solid var(--line);
+  padding-bottom:env(safe-area-inset-bottom);
+}
+.bottomnav-inner{
+  display:flex;
+  height:var(--nav-h);
+}
+.navitem{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:700;
+  transition:color .15s ease;
+}
+.navitem svg{width:22px;height:22px;stroke:currentColor;}
+.navitem.active{color:var(--orange);}
+.navitem:active{opacity:.6;}
+
+/* ===== الشعار الكبير ===== */
+.hero{
+  padding:52px 22px 40px;
+  text-align:center;
+  background:
+    radial-gradient(circle at 50% 0%, #241a12 0%, var(--black) 55%);
+}
+.hero .logo-mark{
+  font-size:54px;
+  font-weight:900;
+  letter-spacing:.02em;
+  line-height:1;
+  margin-bottom:6px;
+  unicode-bidi:plaintext;
+}
+.hero .logo-mark .plus{color:var(--orange);}
+.hero .logo-sub{
+  font-size:12px;
+  letter-spacing:.3em;
+  color:var(--muted);
+  font-weight:700;
+  margin-bottom:30px;
+}
+.eyebrow{
+  display:inline-block;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.08em;
+  color:var(--orange);
+  background:rgba(232,98,44,.12);
+  border:1px solid rgba(232,98,44,.35);
+  padding:6px 14px;
+  border-radius:999px;
+  margin-bottom:14px;
+}
+h1.display{
+  font-size:clamp(28px,8vw,36px);
+  font-weight:900;
+  line-height:1.2;
+  margin-bottom:10px;
+}
+.tagline-en{
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:.05em;
+  color:var(--muted);
+  margin-bottom:22px;
+}
+.lede{
+  font-size:15.5px;
+  line-height:1.85;
+  color:var(--muted-light,#c9c2b4);
+}
+.section-light .lede{color:var(--muted-dark);}
+
+/* ===== العناوين ===== */
+.section-head{margin-bottom:20px;}
+.section-head .eyebrow{margin-bottom:10px;}
+h2.title{
+  font-size:clamp(22px,6.5vw,27px);
+  font-weight:900;
+  line-height:1.3;
+}
+h2.title.on-light{color:var(--ink);}
+.subtitle{
+  margin-top:8px;
+  font-size:14.5px;
+  color:var(--muted);
+  line-height:1.7;
+}
+.section-light .subtitle{color:var(--muted-dark);}
+
+/* ===== الأزرار ===== */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:15px 26px;
+  border-radius:999px;
+  font-weight:800;
+  font-size:15px;
+  border:none;
+  cursor:pointer;
+  width:100%;
+  transition:transform .15s ease, opacity .15s ease;
+}
+.btn:active{transform:scale(.97);}
+.btn-primary{background:var(--orange);color:#fff;}
+.btn-outline{background:transparent;color:var(--cream);border:1.5px solid var(--line);}
+.section-light .btn-outline{color:var(--ink);border-color:var(--line-dark);}
+.btn-block-wrap{display:flex;flex-direction:column;gap:12px;margin-top:22px;}
+.btn svg{width:18px;height:18px;}
+
+/* ===== الشبكات والبطاقات ===== */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.tile{
+  background:var(--black-card);
+  border:1px solid var(--line);
+  border-radius:var(--radius-md);
+  padding:18px 14px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  transition:transform .15s ease, border-color .15s ease;
+}
+.section-light .tile{background:var(--cream-card);border-color:var(--line-dark);}
+.tile:active{transform:scale(.96);}
+.tile-icon{
+  width:40px;height:40px;
+  border-radius:12px;
+  background:rgba(232,98,44,.14);
+  color:var(--orange);
+  display:flex;align-items:center;justify-content:center;
+}
+.tile-icon svg{width:22px;height:22px;}
+.tile h3{font-size:15px;font-weight:800;}
+.tile .tile-en{font-size:10.5px;color:var(--muted);font-weight:700;letter-spacing:.04em;text-transform:uppercase;}
+.tile p{font-size:12.5px;color:var(--muted);line-height:1.6;}
+.section-light .tile p{color:var(--muted-dark);}
+
+.card{
+  background:var(--black-card);
+  border:1px solid var(--line);
+  border-radius:var(--radius-lg);
+  padding:20px;
+}
+.section-light .card{background:var(--cream-card);border-color:var(--line-dark);}
+.card + .card{margin-top:12px;}
+.card h3{font-size:16px;font-weight:800;margin-bottom:6px;}
+.card .en{font-size:11px;color:var(--muted);font-weight:700;letter-spacing:.04em;}
+.card p{font-size:13.5px;color:var(--muted);line-height:1.7;margin-top:6px;}
+.section-light .card p{color:var(--muted-dark);}
+
+/* ===== شرائح (Chips) للتصنيفات الفرعية ===== */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+.chip{
+  font-size:12.5px;
+  font-weight:700;
+  padding:9px 14px;
+  border-radius:999px;
+  background:rgba(255,255,255,.06);
+  border:1px solid var(--line);
+  color:var(--cream);
+}
+.section-light .chip{background:#fff;border-color:var(--line-dark);color:var(--ink);}
+
+/* ===== قائمة خطوات مرقمة ===== */
+.steps{display:flex;flex-direction:column;gap:0;margin-top:18px;}
+.step{
+  display:flex;
+  gap:14px;
+  padding:16px 0;
+  border-bottom:1px solid var(--line);
+}
+.section-light .step{border-color:var(--line-dark);}
+.step:last-child{border-bottom:none;}
+.step-num{
+  flex-shrink:0;
+  width:34px;height:34px;
+  border-radius:50%;
+  background:var(--orange);
+  color:#fff;
+  font-weight:900;
+  font-size:14px;
+  display:flex;align-items:center;justify-content:center;
+}
+.step-body h4{font-size:14.5px;font-weight:800;margin-bottom:3px;}
+.step-body p{font-size:12.5px;color:var(--muted);line-height:1.6;}
+.section-light .step-body p{color:var(--muted-dark);}
+
+/* ===== بطاقات الشركات (اللوقوات) داخل صفحات القائمة ===== */
+.brand-card{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  background:var(--cream-card);
+  border:1px solid var(--line-dark);
+  border-radius:var(--radius-md);
+  padding:14px;
+}
+.brand-card + .brand-card{margin-top:10px;}
+.brand-logo{
+  flex-shrink:0;
+  width:56px;height:56px;
+  border-radius:14px;
+  background:repeating-linear-gradient(45deg,#e7ded0,#e7ded0 6px,#f4efe6 6px,#f4efe6 12px);
+  border:1px dashed #c8bfae;
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;
+  color:#9a8f7a;
+  font-weight:700;
+  text-align:center;
+}
+.brand-info h3{font-size:14.5px;font-weight:800;color:var(--ink);}
+.brand-info p{font-size:12px;color:var(--muted-dark);margin-top:2px;line-height:1.5;}
+.brand-info .tag{
+  display:inline-block;
+  margin-top:6px;
+  font-size:10.5px;
+  font-weight:700;
+  color:var(--orange-dark);
+  background:rgba(232,98,44,.12);
+  padding:3px 9px;
+  border-radius:999px;
+}
+.edit-note{
+  margin-top:16px;
+  padding:14px;
+  border-radius:var(--radius-sm);
+  background:rgba(232,98,44,.08);
+  border:1px dashed rgba(232,98,44,.4);
+  font-size:12px;
+  color:var(--orange-dark);
+  line-height:1.7;
+}
+
+/* ===== جدول اليوم المثالي (Timeline) ===== */
+.timeline{margin-top:18px;}
+.tl-item{
+  position:relative;
+  padding-right:26px;
+  padding-bottom:22px;
+  border-right:2px solid var(--line);
+}
+.section-light .tl-item{border-color:var(--line-dark);}
+.tl-item:last-child{border-color:transparent;padding-bottom:0;}
+.tl-item::before{
+  content:"";
+  position:absolute;
+  right:-6px;top:2px;
+  width:10px;height:10px;
+  border-radius:50%;
+  background:var(--orange);
+}
+.tl-time{font-size:12px;font-weight:800;color:var(--orange);margin-bottom:3px;}
+.tl-title{font-size:14.5px;font-weight:800;}
+.tl-sub{font-size:12px;color:var(--muted);margin-top:2px;}
+.section-light .tl-sub{color:var(--muted-dark);}
+
+/* ===== مقارنة بدون / مع A+ ===== */
+.compare{display:flex;flex-direction:column;gap:14px;margin-top:18px;}
+.compare-col{
+  background:var(--black-card);
+  border:1px solid var(--line);
+  border-radius:var(--radius-md);
+  padding:16px;
+}
+.compare-col.with{border-color:rgba(232,98,44,.5);background:rgba(232,98,44,.08);}
+.compare-label{font-size:12px;font-weight:800;color:var(--muted);margin-bottom:10px;}
+.compare-col.with .compare-label{color:var(--orange);}
+.compare-row{
+  font-size:13.5px;
+  padding:8px 0;
+  border-bottom:1px solid var(--line);
+  color:var(--muted);
+}
+.compare-col.with .compare-row{color:var(--cream);font-weight:700;border-color:rgba(232,98,44,.2);}
+.compare-row:last-child{border-bottom:none;}
+.compare-row.strike{text-decoration:line-through;opacity:.6;}
+
+/* ===== نموذج التواصل ===== */
+.form-field{margin-bottom:14px;}
+.form-field label{
+  display:block;
+  font-size:12.5px;
+  font-weight:800;
+  margin-bottom:7px;
+  color:var(--cream);
+}
+.form-field input,
+.form-field select,
+.form-field textarea{
+  width:100%;
+  background:var(--black-card);
+  border:1px solid var(--line);
+  border-radius:var(--radius-sm);
+  padding:13px 14px;
+  color:var(--cream);
+  font-family:inherit;
+  font-size:14px;
+}
+.form-field textarea{resize:vertical;min-height:88px;}
+.form-field input::placeholder,
+.form-field textarea::placeholder{color:var(--muted);}
+.form-field select{appearance:none;}
+
+/* ===== شبكة روابط تواصل سريعة ===== */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;}
+.contact-btn{
+  background:var(--black-card);
+  border:1px solid var(--line);
+  border-radius:var(--radius-md);
+  padding:16px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+  text-align:center;
+  font-size:12.5px;
+  font-weight:700;
+}
+.contact-btn svg{width:22px;height:22px;color:var(--orange);}
+
+/* ===== تذييل بسيط ===== */
+.foot-note{
+  text-align:center;
+  font-size:11px;
+  color:var(--muted);
+  padding:18px 20px 4px;
+}
+
+/* ===== حركة ظهور بسيطة عند التمرير ===== */
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .5s ease, transform .5s ease;}
+.reveal.in{opacity:1;transform:translateY(0);}
+
+/* ===== فاصل نصي بين قسمين ===== */
+.divider{height:1px;background:var(--line);margin:8px 0;}
+.section-light .divider{background:var(--line-dark);}
+
+/* ===== إصلاح اتجاه النص للعناصر ثنائية اللغة =====
+   يمنع اختلاط ترتيب الحروف/الرموز الإنجليزية عند وضعها داخل صفحة عربية (RTL) */
+.eyebrow,
+.tagline-en,
+.tile-en,
+.card .en,
+.chip,
+.brand-info .tag,
+.page-title{
+  unicode-bidi:plaintext;
+}
