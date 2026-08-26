@@ -88,7 +88,7 @@
 
       <form id="inquiryForm">
         <div class="form-field">
-          <label for="name">الاسم</label>
+          <label for="name">الاسم <span class="req">*</span></label>
           <input type="text" id="name" name="name" placeholder="اسمك الكامل" required>
         </div>
         <div class="form-field">
@@ -96,7 +96,7 @@
           <input type="text" id="company" name="company" placeholder="اسم الشركة">
         </div>
         <div class="form-field">
-          <label for="phone">رقم الجوال</label>
+          <label for="phone">رقم الجوال <span class="req">*</span></label>
           <input type="tel" id="phone" name="phone" placeholder="05xxxxxxxx" required>
         </div>
         <div class="form-field">
@@ -123,6 +123,7 @@
           <textarea id="details" name="details" placeholder="اكتب أي تفاصيل تساعدنا نجهز لك عرض دقيق"></textarea>
         </div>
 
+        <p style="font-size:11px;color:var(--muted-dark);margin-bottom:12px;"><span class="req" style="color:var(--orange);">*</span> حقول مطلوبة</p>
         <button type="submit" class="btn btn-primary">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
           إرسال عبر واتساب
@@ -153,7 +154,7 @@
           اتصال مباشر
         </a>
         <!-- عدّل رابط انستقرام بالأسفل -->
-        <a class="contact-btn" href="#">
+        <a class="contact-btn" href="https://instagram.com/aplusbrands" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg>
           انستقرام
         </a>
