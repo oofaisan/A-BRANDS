@@ -369,6 +369,23 @@ h2.title.on-light{color:var(--ink);}
   line-height:1.7;
 }
 
+/* ===== شبكة شعارات شركاء النجاح ===== */
+.partners-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:18px;}
+.partner-logo{
+  background:var(--cream-card);
+  border:1px solid var(--line-dark);
+  border-radius:var(--radius-md);
+  min-height:64px;
+  display:flex;align-items:center;justify-content:center;
+  text-align:center;
+  padding:10px 12px;
+  font-size:12.5px;
+  font-weight:800;
+  color:var(--ink);
+  line-height:1.4;
+}
+.partner-logo img{max-height:34px;width:auto;max-width:100%;}
+
 /* ===== جدول اليوم المثالي (Timeline) ===== */
 .timeline{margin-top:18px;}
 .tl-item{
