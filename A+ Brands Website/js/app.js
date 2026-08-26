@@ -32,13 +32,12 @@ function initRevealOnScroll() {
   items.forEach(function (el) { io.observe(el); });
 }
 
-/* نموذج "ابدأ الآن": يجهّز رسالة واتساب جاهزة من بيانات النموذج
-   ملاحظة للتعديل: غيّر رقم WHATSAPP_NUMBER بالأسفل لرقم شركتكم الحقيقي */
+/* نموذج "ابدأ الآن": يجهّز رسالة واتساب جاهزة من بيانات النموذج */
 function initInquiryForm() {
   var form = document.getElementById("inquiryForm");
   if (!form) return;
 
-  var WHATSAPP_NUMBER = "9665XXXXXXXX"; // TODO: استبدل هذا برقم واتساب الشركة (بدون + أو صفر البداية)
+  var WHATSAPP_NUMBER = "966551150099"; // رقم واتساب A+ BRANDS
 
   form.addEventListener("submit", function (e) {
     e.preventDefault();
