@@ -5,6 +5,7 @@
 document.addEventListener("DOMContentLoaded", function () {
   initRevealOnScroll();
   initInquiryForm();
+  initMenuFilter();
 });
 
 /* ظهور تدريجي للبطاقات عند التمرير */
@@ -57,4 +58,45 @@ function initInquiryForm() {
     var msg = encodeURIComponent(lines.join("\n"));
     window.open("https://wa.me/" + WHATSAPP_NUMBER + "?text=" + msg, "_blank");
   });
+}
+
+/* فلترة صفحة القائمة الموحّدة حسب التصنيف */
+function initMenuFilter() {
+  var bar = document.querySelector(".filter-bar");
+  if (!bar) return;
+
+  var chips = bar.querySelectorAll(".filter-chip");
+  var cards = document.querySelectorAll(".listing-card[data-cat]");
+  var emptyState = document.getElementById("listingEmpty");
+
+  function applyFilter(cat) {
+    var anyVisible = false;
+    cards.forEach(function (card) {
+      var match = cat === "all" || card.dataset.cat === cat;
+      card.style.display = match ? "" : "none";
+      if (match) anyVisible = true;
+    });
+    if (emptyState) emptyState.style.display = anyVisible ? "none" : "block";
+  }
+
+  function activate(cat) {
+    chips.forEach(function (c) {
+      c.classList.toggle("active", c.dataset.filter === cat);
+    });
+    applyFilter(cat);
+  }
+
+  chips.forEach(function (chip) {
+    chip.addEventListener("click", function () {
+      var cat = chip.dataset.filter;
+      activate(cat);
+      var url = cat === "all" ? "menu.html" : "menu.html?cat=" + cat;
+      history.replaceState(null, "", url);
+      chip.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+    });
+  });
+
+  var requested = new URLSearchParams(location.search).get("cat");
+  var target = bar.querySelector('.filter-chip[data-filter="' + requested + '"]') ? requested : "all";
+  activate(target);
 }
