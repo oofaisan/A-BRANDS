@@ -150,6 +150,16 @@ var CALC_SERVICES = {
       { qty: 200, price: 9775 },
     ],
   },
+  "bianca-garden": {
+    label: "Bianca Garden — عربة تيراريوم",
+    link: "vendor-bianca-garden.html",
+    tiers: [
+      { qty: 10, price: 2000 },
+      { qty: 20, price: 4000 },
+      { qty: 35, price: 7000 },
+      { qty: 50, price: 10000 },
+    ],
+  },
 };
 
 function formatSAR(n) {
