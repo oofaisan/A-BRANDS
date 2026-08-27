@@ -106,7 +106,9 @@ function initMenuFilter() {
 /* بيانات باقات الأسعار الحقيقية — نفس الأرقام الموجودة بصفحات البراندات */
 var CALC_SERVICES = {
   "monkey-cookies-cart": {
-    label: "Monkey Cookies — عربة الكوكيز",
+    label: "Monkey Cookies",
+    sub: "عربة الكوكيز",
+    unit: "علبة",
     link: "vendor-monkey-cookies.html#cookies-cart",
     tiers: [
       { qty: 30, price: 1950 },
@@ -117,7 +119,9 @@ var CALC_SERVICES = {
     ],
   },
   "coffee-stand": {
-    label: "Monkey Cookies — ستاند القهوة",
+    label: "Monkey Cookies",
+    sub: "ستاند القهوة",
+    unit: "ضيف",
     link: "vendor-monkey-cookies.html#coffee-stand",
     tiers: [
       { qty: 30, price: 1770 },
@@ -128,7 +132,9 @@ var CALC_SERVICES = {
     ],
   },
   "acai": {
-    label: "Açaí — عربة آساي",
+    label: "Açaí",
+    sub: "عربة آساي",
+    unit: "ضيف",
     link: "vendor-acai.html",
     tiers: [
       { qty: 30, price: 2400 },
@@ -139,7 +145,9 @@ var CALC_SERVICES = {
     ],
   },
   "burger-castle": {
-    label: "Burger Castle — عربة برجر كاسل",
+    label: "Burger Castle",
+    sub: "عربة برجر كاسل",
+    unit: "وجبة",
     link: "vendor-burger-castle.html",
     tiers: [
       { qty: 30, price: 2875 },
@@ -151,7 +159,9 @@ var CALC_SERVICES = {
     ],
   },
   "bianca-garden": {
-    label: "Bianca Garden — عربة تيراريوم",
+    label: "Bianca Garden",
+    sub: "عربة تيراريوم",
+    unit: "نبتة",
     link: "vendor-bianca-garden.html",
     tiers: [
       { qty: 10, price: 2000 },
@@ -166,50 +176,143 @@ function formatSAR(n) {
   return Math.round(n).toLocaleString("en-US");
 }
 
-/* حاسبة تكلفة المناسبة (صفحة المناسبات) */
+/* أقرب باقة تغطي عدد الأشخاص (أو أكبر باقة متاحة لو العدد أكبر من الكل) */
+function calcNearestTier(tiers, guests) {
+  var maxTier = tiers[tiers.length - 1];
+  if (guests > maxTier.qty) return maxTier;
+  return tiers.find(function (t) { return t.qty >= guests; }) || maxTier;
+}
+
+/* حاسبة تكلفة المناسبة (صفحة المناسبات) — اختيار عدة خدمات، وباقة حرة لكل وحدة */
 function initOccasionsCalculator() {
-  var serviceSelect = document.getElementById("calcService");
   var guestsInput = document.getElementById("calcGuests");
+  var servicesBox = document.getElementById("calcServices");
   var resultBox = document.getElementById("calcResult");
-  if (!serviceSelect || !guestsInput || !resultBox) return;
+  if (!guestsInput || !servicesBox || !resultBox) return;
+
+  /* state: { serviceKey: { checked:bool, tierQty:number, manual:bool } } */
+  var state = {};
+  Object.keys(CALC_SERVICES).forEach(function (key) {
+    state[key] = { checked: false, tierQty: null, manual: false };
+  });
+
+  function buildServiceCards() {
+    var html = "";
+    Object.keys(CALC_SERVICES).forEach(function (key) {
+      var s = CALC_SERVICES[key];
+      html +=
+        '<div class="calc-service-card" data-service="' + key + '">' +
+          '<label class="calc-service-toggle">' +
+            '<input type="checkbox" data-role="check" data-service="' + key + '">' +
+            '<span class="calc-service-name">' + s.label + '<small>' + s.sub + '</small></span>' +
+          '</label>' +
+          '<div class="calc-tier-row" data-tiers="' + key + '" hidden>' +
+            s.tiers.map(function (t) {
+              return '<button type="button" class="calc-tier-pill" data-service="' + key + '" data-qty="' + t.qty + '">' + t.qty + ' <small>' + s.unit + '</small></button>';
+            }).join("") +
+          '</div>' +
+        '</div>';
+    });
+    servicesBox.innerHTML = html;
+
+    servicesBox.querySelectorAll('[data-role="check"]').forEach(function (cb) {
+      cb.addEventListener("change", function () {
+        var key = cb.dataset.service;
+        state[key].checked = cb.checked;
+        if (cb.checked && !state[key].tierQty) {
+          var guests = parseInt(guestsInput.value, 10) || 1;
+          state[key].tierQty = calcNearestTier(CALC_SERVICES[key].tiers, guests).qty;
+        }
+        syncCardUI(key);
+        render();
+      });
+    });
+
+    servicesBox.querySelectorAll(".calc-tier-pill").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var key = btn.dataset.service;
+        state[key].tierQty = parseInt(btn.dataset.qty, 10);
+        state[key].manual = true;
+        syncCardUI(key);
+        render();
+      });
+    });
+  }
+
+  function syncCardUI(key) {
+    var card = servicesBox.querySelector('.calc-service-card[data-service="' + key + '"]');
+    if (!card) return;
+    var tierRow = card.querySelector(".calc-tier-row");
+    tierRow.hidden = !state[key].checked;
+    card.classList.toggle("active", state[key].checked);
+    tierRow.querySelectorAll(".calc-tier-pill").forEach(function (btn) {
+      btn.classList.toggle("active", parseInt(btn.dataset.qty, 10) === state[key].tierQty);
+    });
+  }
 
   function render() {
-    var service = CALC_SERVICES[serviceSelect.value];
     var guests = parseInt(guestsInput.value, 10);
+    var selectedKeys = Object.keys(state).filter(function (k) { return state[k].checked; });
 
-    if (!service || !guests || guests < 1) {
+    if (!guests || guests < 1) {
       resultBox.innerHTML = '<p class="calc-note">أدخل عدد الأشخاص لعرض التكلفة التقريبية.</p>';
       return;
     }
+    if (!selectedKeys.length) {
+      resultBox.innerHTML = '<p class="calc-note">اختر خدمة واحدة على الأقل من الأعلى لعرض التكلفة التقريبية.</p>';
+      return;
+    }
 
-    var tiers = service.tiers;
-    var maxTier = tiers[tiers.length - 1];
-    var exceedsMax = guests > maxTier.qty;
-    var tier = exceedsMax ? maxTier : tiers.find(function (t) { return t.qty >= guests; });
+    /* تحديث الباقات التلقائية (غير المعدّلة يدويًا) لو تغيّر عدد الأشخاص */
+    selectedKeys.forEach(function (key) {
+      if (!state[key].manual) {
+        state[key].tierQty = calcNearestTier(CALC_SERVICES[key].tiers, guests).qty;
+        syncCardUI(key);
+      }
+    });
 
-    var perPerson = tier.price / guests;
+    var total = 0;
+    var lines = "";
+    var interestParts = [];
+    var anyExceeds = false;
+
+    selectedKeys.forEach(function (key) {
+      var s = CALC_SERVICES[key];
+      var tier = s.tiers.find(function (t) { return t.qty === state[key].tierQty; }) || s.tiers[s.tiers.length - 1];
+      total += tier.price;
+      interestParts.push(s.label + " " + s.sub + " (باقة " + tier.qty + ")");
+      var exceeds = guests > s.tiers[s.tiers.length - 1].qty;
+      if (exceeds) anyExceeds = true;
+
+      lines +=
+        '<div class="calc-line-item">' +
+          '<span>' + s.label + ' <small>— باقة ' + tier.qty + ' ' + s.unit + '</small></span>' +
+          '<span class="calc-line-price">' + formatSAR(tier.price) + ' ﷼</span>' +
+        "</div>";
+    });
+
+    var perPerson = total / guests;
 
     var html =
-      '<div class="calc-service">' + service.label + "</div>" +
-      '<div class="calc-per-person">' + formatSAR(perPerson) + ' ﷼ <span>/ الشخص تقريبًا</span></div>' +
-      '<div class="calc-total">بناءً على باقة ' + tier.qty + " — إجمالي " + formatSAR(tier.price) + " ﷼</div>";
+      '<div class="calc-lines">' + lines + "</div>" +
+      '<div class="calc-summary">' +
+        '<div class="calc-total">إجمالي الاختيارات — ' + formatSAR(total) + " ﷼</div>" +
+        '<div class="calc-per-person">' + formatSAR(perPerson) + ' ﷼ <span>/ الشخص تقريبًا</span></div>' +
+      "</div>";
 
-    if (exceedsMax) {
-      html += '<div class="calc-note">عدد الأشخاص أكبر من أكبر باقة متاحة (' + maxTier.qty + ') — السعر هنا تقديري فقط، تواصل معنا لعرض مخصص لعددكم.</div>';
-    } else if (tier.qty !== guests) {
-      html += '<div class="calc-note">أقرب باقة تغطي عدد ضيوفكم هي باقة ' + tier.qty + ".</div>";
+    if (anyExceeds) {
+      html += '<div class="calc-note">عدد الأشخاص أكبر من أكبر باقة متاحة لإحدى الخدمات المختارة — الأسعار هنا تقديرية، تواصل معنا لعرض مخصص.</div>';
     }
 
     html +=
       '<div class="calc-cta btn-block-wrap" style="margin-top:14px;">' +
-      '<a class="btn btn-primary" href="' + service.link + '">تفاصيل الباقات</a>' +
-      '<a class="btn btn-outline" href="start.html?guests=' + guests + '&interest=' + encodeURIComponent(service.label) + '&perperson=' + Math.round(perPerson) + '">اطلب عرض سعر لهذا الاختيار</a>' +
+      '<a class="btn btn-outline" href="start.html?guests=' + guests + '&interest=' + encodeURIComponent(interestParts.join("، ")) + '&perperson=' + Math.round(perPerson) + '&total=' + Math.round(total) + '">اطلب عرض سعر لهذا الاختيار</a>' +
       "</div>";
 
     resultBox.innerHTML = html;
   }
 
-  serviceSelect.addEventListener("change", render);
+  buildServiceCards();
   guestsInput.addEventListener("input", render);
   render();
 }
@@ -223,6 +326,7 @@ function initFormPrefill() {
   var guests = params.get("guests");
   var interest = params.get("interest");
   var perPerson = params.get("perperson");
+  var total = params.get("total");
 
   var guestsField = document.getElementById("guests");
   if (guests && guestsField) guestsField.value = guests;
@@ -231,7 +335,9 @@ function initFormPrefill() {
   if (interest && detailsField) {
     var note = "مهتم بـ: " + interest;
     if (guests) note += " — لعدد " + guests + " شخص تقريبًا";
-    if (perPerson) note += " (حسب حاسبة الموقع: ~" + perPerson + " ﷼ للشخص)";
+    if (total) note += " (حسب حاسبة الموقع: إجمالي ~" + total + " ﷼";
+    if (total && perPerson) note += " أي ~" + perPerson + " ﷼ للشخص)";
+    else if (total) note += ")";
     detailsField.value = note;
   }
 }
