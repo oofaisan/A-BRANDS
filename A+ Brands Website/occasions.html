@@ -81,6 +81,33 @@
       <p class="subtitle" style="margin-top:16px;">بالإضافة لأي مناسبة خاصة بتقويم شركتكم.</p>
     </section>
 
+    <!-- حاسبة التكلفة -->
+    <section class="section section-light">
+      <div class="section-head">
+        <span class="eyebrow">حاسبة تقريبية</span>
+        <h2 class="title on-light">احسب تكلفة مناسبتك</h2>
+        <p class="subtitle">اختر الخدمة وعدد الأشخاص، وشوف التكلفة التقريبية للشخص الواحد فورًا.</p>
+      </div>
+
+      <div class="calc-box">
+        <div class="form-field">
+          <label for="calcService">الخدمة</label>
+          <select id="calcService">
+            <option value="monkey-cookies-cart">Monkey Cookies — عربة الكوكيز</option>
+            <option value="coffee-stand">Monkey Cookies — ستاند القهوة</option>
+            <option value="acai">Açaí — عربة آساي</option>
+            <option value="burger-castle">Burger Castle — عربة برجر كاسل</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="calcGuests">عدد الأشخاص</label>
+          <input type="number" id="calcGuests" min="1" placeholder="مثال: 80" value="50">
+        </div>
+
+        <div id="calcResult" class="calc-result"></div>
+      </div>
+    </section>
+
     <!-- مثال ليوم -->
     <section class="section section-light">
       <div class="section-head">
