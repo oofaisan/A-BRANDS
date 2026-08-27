@@ -375,7 +375,7 @@ h2.title.on-light{color:var(--ink);}
   background:#fff;
   border:1px solid var(--line-dark);
   border-radius:var(--radius-md);
-  min-height:78px;
+  min-height:88px;
   display:flex;align-items:center;justify-content:center;
   text-align:center;
   padding:12px;
@@ -384,7 +384,7 @@ h2.title.on-light{color:var(--ink);}
   color:var(--ink);
   line-height:1.4;
 }
-.partner-logo img{max-height:42px;width:auto;max-width:100%;object-fit:contain;}
+.partner-logo img{max-height:50px;width:auto;max-width:100%;object-fit:contain;}
 
 /* ===== جدول اليوم المثالي (Timeline) ===== */
 .timeline{margin-top:18px;}
